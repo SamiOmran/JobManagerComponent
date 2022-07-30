@@ -12,8 +12,7 @@
 * **addNewJob() API**: post method | url(http://localhost:8080) | calls the addJob() method.
 
 ## Required Interface:
-* ss
-*
+* **run()**: method that runs threads.
 
 ## APIs:
 * http://localhost:8080/active-jobs: Get method | returns all active jobs
