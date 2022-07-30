@@ -12,7 +12,7 @@ import java.util.Set;
 public class EmailJobManager implements JobManagerInterface {
     private static final Logger logger = LoggerFactory.getLogger(EmailJobManager.class);
     @Override
-    public Queue<JobInterface> getAllJobs() {
+    public Queue<JobInterface> getAllActiveJobs() {
         return queue;
     }
 
@@ -23,17 +23,21 @@ public class EmailJobManager implements JobManagerInterface {
 
     @Override
     public boolean addJob(JobInterface newJob) {
+        boolean added = queue.add(newJob);
         logging((EmailJob) newJob);
-        return queue.add(newJob);
+        return added;
     }
 
     @Override
     public void serveJob() {
         if (queue.isEmpty())
             return;
+
         EmailJob email = (EmailJob) queue.element();
         email.setStatus(Constants.STATUS_IN_PROGRESS);
+        email.run();
         logging(email);
+        removeJob();
     }
 
     @Override
@@ -42,7 +46,9 @@ public class EmailJobManager implements JobManagerInterface {
             return;
         EmailJob email = (EmailJob) queue.remove();
         email.setStatus(Constants.STATUS_DONE);
+        email.setResult(Constants.RESULT_SUCCESS);
         finishedJobs.add(email);
+
         logging(email);
     }
 

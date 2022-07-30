@@ -2,6 +2,8 @@ package com.example.demo.models;
 
 import com.example.demo.models.interfaces.JobInterface;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EmailJob implements JobInterface {
     private final int id;
@@ -9,6 +11,7 @@ public class EmailJob implements JobInterface {
     private String status;
     private String result;
 
+    private static final Logger logger = LoggerFactory.getLogger(EmailJob.class);
     public EmailJob(@JsonProperty("id") int id, @JsonProperty("message") String message) {
         this.id = id;
         this.message = message;
@@ -42,5 +45,10 @@ public class EmailJob implements JobInterface {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public void run() {
+        logger.info("Email: " + this.getId() + ", with message: " + this.getMessage() +  " is being send.");
     }
 }

@@ -18,11 +18,10 @@ import java.util.Set;
 @RestController
 public class JobManagerController {
     JobManagerInterface jobManager = new EmailJobManager();
-    private static final Logger logger = LoggerFactory.getLogger(JobManagerController.class);
 
-    @GetMapping("/")
-    public Queue<JobInterface> getAllJobs() {
-        return jobManager.getAllJobs();
+    @GetMapping("/active-jobs")
+    public Queue<JobInterface> getAllActiveJobs() {
+        return jobManager.getAllActiveJobs();
     }
 
     @GetMapping("/finished-jobs")
@@ -34,5 +33,13 @@ public class JobManagerController {
     public boolean addNewJob(@RequestBody EmailJob newJob) {
         newJob.setStatus(Constants.STATUS_PENDING);
         return jobManager.addJob(newJob);
+    }
+
+    @GetMapping("/serve")
+    public Set<JobInterface> serveJobs() {
+        while(!jobManager.getAllActiveJobs().isEmpty()) {
+            jobManager.serveJob();
+        }
+        return jobManager.getFinishedJobs();
     }
 }

@@ -16,5 +16,6 @@ public class LoadData {
     void generateJobs() {
         JobInterface newJob = new EmailJob(1, "First Email", Constants.STATUS_PENDING);
         jobManager.addJob(newJob);
+        jobManager.serveJob();
     }
 }

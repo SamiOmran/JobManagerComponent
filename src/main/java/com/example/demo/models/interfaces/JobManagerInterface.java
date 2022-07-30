@@ -5,7 +5,7 @@ import java.util.*;
 public interface JobManagerInterface {
     Queue<JobInterface> queue = new LinkedList<>();
     Set<JobInterface> finishedJobs = new HashSet<>();
-    Queue<JobInterface> getAllJobs();
+    Queue<JobInterface> getAllActiveJobs();
     Set<JobInterface> getFinishedJobs();
     boolean addJob(JobInterface newJob);
     void serveJob();

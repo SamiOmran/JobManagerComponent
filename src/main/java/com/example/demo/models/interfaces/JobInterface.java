@@ -1,5 +1,6 @@
 package com.example.demo.models.interfaces;
 
-public interface JobInterface {
-
+public interface JobInterface extends Runnable {
+    @Override
+    void run();
 }
